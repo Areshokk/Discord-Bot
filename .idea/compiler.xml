@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="discord-bot" />
         <module name="Discord Bot" />
+        <module name="Discord-Bot" />
       </profile>
     </annotationProcessing>
   </component>
