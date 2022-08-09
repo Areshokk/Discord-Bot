@@ -5,10 +5,11 @@ public class Hello extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent event) {
         String messageSent = event.getMessage().getContentRaw();
-
+        if (messageSent.equalsIgnoreCase("йдем в доту"))
+            event.getChannel().sendMessage("не").queue();
 
         if (messageSent.equalsIgnoreCase("<@500568425798696971>"))
-            event.getChannel().sendMessage("Fuck you").queue();
+            event.getChannel().sendMessage("Йди нахуй").queue();
 
     }
 }
