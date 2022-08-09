@@ -8,7 +8,7 @@ import javax.security.auth.login.LoginException;
 public class DiscrodBot {
 
     public static void main(String[] args) throws LoginException {
-        JDA bot = JDABuilder.createDefault(Secret.botToken)
+        JDA bot = JDABuilder.createDefault("MTAwNjY4NTg0MTczMDU4ODc3Ng.GthR6U.4Hp0F5WjqWuby2MRL8PCCm-VClBd8TAQNqSfb0")
                 .setActivity(Activity.playing("Jebanii GenshiT"))
                 .build();
         bot.addEventListener(new Hello());
