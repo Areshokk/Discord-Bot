@@ -11,11 +11,12 @@ public class Hello extends ListenerAdapter {
 
         System.out.println("log - " + event.getMessage());
 
-//        if (!event.getAuthor().isBot()) {
-//            String messageSent = event.getMessage().getContentRaw();
-//            System.out.println(messageSent);
-//            event.getChannel().sendMessage("The message echo - " + messageSent.toUpperCase(Locale.ROOT)).queue();
-//        }
+        if (!event.getAuthor().isBot()) {
+            String messageSent = event.getMessage().getContentRaw();
+
+            if (messageSent.equals("2"))
+                event.getChannel().sendMessage("Не блять три \nзвичайно що два").queue();
+        }
 
 
 

@@ -23,7 +23,8 @@ public class NewMember extends ListenerAdapter {
     {
 
         System.out.println(event.getMember());
-       final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
+       //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
+       final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("висоцький-підар",true);
 
        if (dontDoThis.isEmpty()) {
            return;
@@ -41,7 +42,8 @@ public class NewMember extends ListenerAdapter {
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
         System.out.println(event.getMember());
-        final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
+        //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
+        final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("висоцький-підар",true);
 
         if (dontDoThis.isEmpty()) {
             return;
