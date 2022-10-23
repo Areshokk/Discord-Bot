@@ -1,1 +1,1 @@
-Worker: java src/main/java/DiscrodBot.java
+Worker: java src/main/java/DiscordBot.java
