@@ -1,4 +1,4 @@
-package cgen;
+package areshok.cgen;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
