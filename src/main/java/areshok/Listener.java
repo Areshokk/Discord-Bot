@@ -53,57 +53,57 @@ public class Listener extends ListenerAdapter {
             case "join" -> {
 
                 if(m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
-                    sendMessage(ev, "Where?", "You are currently in no channel 🙃", Color.RED);
+                    sendMessage(ev, "Де?", "Зайди в канал 🙃", Color.RED);
                     return;
                 }
 
                 if (activeVChannel != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-                    sendMessage(ev, "Sorry", "I can't do that whilst playing for somebody else! 💔", Color.RED);
+                    sendMessage(ev, "Вибачаюсь", "Я граю не для тебе! 💔", Color.RED);
                     return;
                 }
 
-                sendMessage(ev, "Greetings", "How can I help you? 😃", Color.GREEN);
+                sendMessage(ev, "ку мяу", "шо хочеш? 😃", Color.GREEN);
                 g.getAudioManager().openAudioConnection(activeVChannel = m.getVoiceState().getChannel());
                 DiscordBot.jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
 
             }
             case "quit" -> quit(ev, g, m, musicManager);
             case "help" -> {
-                Member mem = g.getMemberById(406780230645186561L);
+                Member mem = g.getMemberById(500568425798696971L);
                 String var;
-                if(mem == null) var = User.fromId(406780230645186561L).getAsMention();
+                if(mem == null) var = User.fromId(500568425798696971L).getAsMention();
                 else var = mem.getAsMention();
                 ev.replyEmbeds(new EmbedBuilder()
                                 .setColor(Color.MAGENTA)
                                 .setTitle("Help")
-                                .addField("/join", "Joining the channel", false)
-                                .addField("/quit", "Leaving the channel", false)
-                                .addField("/play [Title/Link]", "Playing the given track(s)", false)
-                                .addField("/pause {Duration}", "Takes a break", false)
-                                .addField("/queue", "Shows the playlist", false)
-                                .addField("/skip", "Skips the current track", false)
-                                .addField("/volume [Percent]", "Regulates the volume", false)
-                                .addField("/jump [Seconds]", "Skips the amount of seconds of the current track", false)
-                                .addField("/shuffle", "Shuffles the playlist", false)
-                                .addField("/loop {track}", "Repeats the current track or playlist", false)
-                                .addField("/stop", "Stops playing", false)
-                                .addField("/info", "Shows the detailed information about the current track", false)
-                                .addField("/bass [Percent]", "Boosts the bass", false)
-                                .addField("/help", "Shows this list", false)
-                                .setDescription("If there's anything wrong with me or you have suggestions for improvement, please contact " + var).build())
-                        .addActionRows(ActionRow.of(Button.success("support", "Support"))).setEphemeral(true).queue();
+                                .addField("/join", "Приєднання до каналу", false)
+                                .addField("/quit", "Покидаю канал", false)
+                                .addField("/play [Назва/Лінка]", "Відтворення заданого треку(ів)", false)
+                                .addField("/pause {Тривалість}", "Робить перерву", false)
+                                .addField("/queue", "Показує список відтворення", false)
+                                .addField("/skip", "Пропускає поточний трек", false)
+                                .addField("/volume [Відсоток]", "Регулює гучність", false)
+                                .addField("/jump [Секунд]", "Пропускає кількість секунд поточного треку", false)
+                                .addField("/shuffle", "Перемішує список відтворення", false)
+                                .addField("/loop {трек}", "Повторює поточний трек або список відтворення", false)
+                                .addField("/stop", "Припиняє грати", false)
+                                .addField("/info", "Показує детальну інформацію про поточний трек", false)
+                                .addField("/bass [Відсоток]", "Підсилює бас", false)
+                                .addField("/help", "Показує цей список", false)
+                                .setDescription("Якщо вас щось не влаштовує або у вас є пропозиції щодо покращення, будь ласка, зв'яжіться зі мною за адресою " + var).build())
+                        .addActionRows(ActionRow.of(Button.success("support", "Підтримка"))).setEphemeral(true).queue();
             }
             case "play" -> {
 
                 if(args.containsKey("title")) play(ev, g, m, args.get("title"));
                 else {
-                    TextInput input = TextInput.create("title", "Title or Link", TextInputStyle.SHORT)
+                    TextInput input = TextInput.create("title", "Назва або посилання", TextInputStyle.SHORT)
                             .setMinLength(1)
                             .setRequired(true)
                             .setPlaceholder("e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ")
                             .build();
 
-                    Modal modal = Modal.create("title-ask", "Specify the track[s]:")
+                    Modal modal = Modal.create("title-ask", "Вкажіть трек[и]:")
                             .addActionRows(ActionRow.of(input)).build();
 
                     ev.replyModal(modal).queue();
@@ -115,18 +115,18 @@ public class Listener extends ListenerAdapter {
 
                 if(!args.containsKey("duration")) {
 
-                    TextInput when = TextInput.create("when", "When", TextInputStyle.SHORT)
+                    TextInput when = TextInput.create("when", "Коли", TextInputStyle.SHORT)
                             .setRequired(false)
-                            .setPlaceholder("e.g. 10").build();
+                            .setPlaceholder("наприклад, 10").build();
 
-                    TextInput unit = TextInput.create("unit", "Time unit", TextInputStyle.SHORT)
-                            .setPlaceholder("e.g. seconds (short: s)")
+                    TextInput unit = TextInput.create("unit", "Одиниця часу", TextInputStyle.SHORT)
+                            .setPlaceholder("наприклад, секунди (скорочено: s)")
                             .setRequired(false)
                             .build();
 
                     boolean paused = musicManager.player.isPaused();
 
-                    Modal modal = Modal.create("pause", (paused ? "Resume" : "Pause") + " Control").addActionRows(ActionRow.of(when), ActionRow.of(unit)).build();
+                    Modal modal = Modal.create("pause", (paused ? "Продовжити" : "Пауза") + " Контроль").addActionRows(ActionRow.of(when), ActionRow.of(unit)).build();
                     ev.replyModal(modal).queue();
 
                 } else pause(ev, musicManager, args.get("duration"), args.get("timeunit"));
@@ -137,14 +137,14 @@ public class Listener extends ListenerAdapter {
             case "volume" -> {
 
                 if(!args.containsKey("volume")) {
-                    TextInput input = TextInput.create("vol", "Volume", TextInputStyle.SHORT)
-                            .setPlaceholder("e.g. 50")
+                    TextInput input = TextInput.create("vol", "Гучність", TextInputStyle.SHORT)
+                            .setPlaceholder("наприклад, 50")
                             .setRequired(true)
                             .setMinLength(1)
                             .setMaxLength(3)
                             .build();
 
-                    Modal modal = Modal.create("volume", "Volume Control")
+                    Modal modal = Modal.create("volume", "Регулювання гучності")
                             .addActionRows(ActionRow.of(input)).build();
                     ev.replyModal(modal).queue();
                 } else volume(ev, musicManager, args.get("volume"));
@@ -153,23 +153,25 @@ public class Listener extends ListenerAdapter {
             case "skip" -> {
                 if(args.get("amount") != null) skip(ev, musicManager, args.get("amount"));
                 else {
-                    TextInput input = TextInput.create("skip-num", "Amount", TextInputStyle.SHORT)
+                    TextInput input = TextInput.create("skip-num", "Кількість", TextInputStyle.SHORT)
                             .setRequired(true)
                             .setValue("1")
-                            .setPlaceholder("e.g. 1")
+                            .setPlaceholder("наприклад, 1")
                             .setMinLength(1).build();
-                    Modal modal = Modal.create("skip", "Skip Control")
+//                    Modal modal = Modal.create("skip", "Skip Control")
+                    Modal modal = Modal.create("skip", "Скіпнути")
                             .addActionRows(ActionRow.of(input)).build();
                     ev.replyModal(modal).queue();
                 }
             }
             case "jump" -> {
                 if(!args.containsKey("seconds")) {
-                    TextInput input = TextInput.create("jump-num", "Amount", TextInputStyle.SHORT)
-                            .setPlaceholder("in seconds")
+                    TextInput input = TextInput.create("jump-num", "Кількість", TextInputStyle.SHORT)
+                            .setPlaceholder("в секундах")
                             .setRequired(true)
                             .build();
-                    Modal modal = Modal.create("jump", "Jump Control")
+                    Modal modal = Modal.create("jump", "Скіп")
+//                    Modal modal = Modal.create("jump", "Jump Control")
                             .addActionRows(ActionRow.of(input)).build();
                     ev.replyModal(modal).queue();
                 } else jump(ev, musicManager, args.get("seconds"));
@@ -178,17 +180,17 @@ public class Listener extends ListenerAdapter {
             case "info" -> info(ev, musicManager);
             case "bass" -> {
                 if(!args.containsKey("amount")) {
-                    TextInput input = TextInput.create("bass-num", "Bass Boost", TextInputStyle.SHORT)
+                    TextInput input = TextInput.create("bass-num", "Басс буст", TextInputStyle.SHORT)
                             .setRequired(true)
-                            .setPlaceholder("in percent (Initially 0)")
+                            .setPlaceholder("у відсотках (спочатку 0)")
                             .build();
 
-                    Modal modal = Modal.create("bass", "Bass Control")
+                    Modal modal = Modal.create("bass", "Басс")
                             .addActionRows(ActionRow.of(input)).build();
                     ev.replyModal(modal).queue();
                 } else bass(ev, musicManager, args.get("amount"));
             }
-            default -> sendMessage(ev, "Whoops", "I do not recognize this command, although I should ❓", Color.RED);
+            default -> sendMessage(ev, "Ой!", "Я не знаю цю команду, хоча повинен ❓", Color.RED);
         }
 
     }
@@ -199,7 +201,7 @@ public class Listener extends ListenerAdapter {
         Member m = ev.getMember();
         Guild g;
         if((g = ev.getGuild()) == null) {
-            sendMessage(ev, "Error", "Couldn't fetch the guild", Color.RED);
+            sendMessage(ev, "П о м и л к а", "Не зміг знайти гільдії", Color.RED);
             return;
         }
 
@@ -213,10 +215,10 @@ public class Listener extends ListenerAdapter {
                 PrivateChannel channel = user.openPrivateChannel().complete();
                 channel.sendMessageEmbeds(new EmbedBuilder()
                         .setColor(Color.MAGENTA)
-                        .setTitle("Support für " + ev.getGuild().getName())
+                        .setTitle("Підтримка für " + ev.getGuild().getName())
                         .setDescription(ev.getUser().getAsTag() + " needs help!")
-                        .addField("Following text was sent:", msg, false).build()).queue();
-                sendMessage(ev, "Success!", "Your message has been sent and is currently reviewed", Color.GREEN);
+                        .addField("Надіслано наступний текст:", msg, false).build()).queue();
+                sendMessage(ev, "Ура!", "Ваше повідомлення надіслано та наразі розглядається", Color.GREEN);
             }
             case "title-ask" -> play(ev, g, m, ev.getValue("title").getAsString());
             case "pause" -> pause(ev, musicManager, ev.getValue("when") == null ? null : ev.getValue("when").getAsString(),
@@ -303,15 +305,15 @@ public class Listener extends ListenerAdapter {
 
     private void quit(GenericCommandInteractionEvent ev, Guild g, Member m, MusicManager musicManager) {
         if (activeVChannel == null) {
-            sendMessage(ev, "Jokes on you", "I'm currently in no channel! 👊", Color.RED);
+            sendMessage(ev, "Ха ха ха", "Мене ніде нема! 👊", Color.RED);
             return;
         }
         if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-            sendMessage(ev, "Sorry", "I can't do that whilst playing for somebody else! 💔", Color.RED);
+            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи за когось іншого! 💔", Color.RED);
             return;
         }
 
-        sendMessage(ev, "Goodbye", "Have a great day! 👋", Color.MAGENTA);
+        sendMessage(ev, "бб", "нюхай бебру! 👋", Color.MAGENTA);
         activeVChannel = null;
         musicManager.handler.stop();
         g.getAudioManager().closeAudioConnection();
@@ -323,12 +325,12 @@ public class Listener extends ListenerAdapter {
 
         if(activeVChannel == null) {
             if(m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
-                sendMessage(ev, "Where?", "You are currently in no channel 🙃", Color.RED);
+                sendMessage(ev, "Де?", "Зайди в канал падлюка 🙃", Color.RED);
                 return;
             } else g.getAudioManager().openAudioConnection(activeVChannel = m.getVoiceState().getChannel());
         }
         if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-            sendMessage(ev, "Sorry", "I can't do that whilst playing for somebody else! 💔", Color.RED);
+            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи за когось іншого.! 💔", Color.RED);
             return;
         }
 
@@ -338,7 +340,7 @@ public class Listener extends ListenerAdapter {
     private void stop(IReplyCallback ev, MusicManager musicManager) {
 
         musicManager.handler.stop();
-        sendMessage(ev, "Stopping", "Would you like me to play something else instead?", Color.GREEN);
+        sendMessage(ev, "Зупинення", "Мб хочеш щось інше?", Color.GREEN);
         DiscordBot.jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.listening("/help"));
 
     }
@@ -350,9 +352,9 @@ public class Listener extends ListenerAdapter {
         if(dur != null) {
             try {
                 duration = Integer.parseInt(dur);
-                if (duration <= 0) sendMessage(ev, "Duration invalid!", "Please pick above zero!", Color.red);
+                if (duration <= 0) sendMessage(ev, "Недійсна тривалість!", "Виберіть вище нуля!", Color.red);
             } catch (NumberFormatException ex) {
-                sendMessage(ev, "Duration invalid!", "`" + dur + "` is not a valid integer number!", Color.RED);
+                sendMessage(ev, "Недійсна тривалість!", "`" + dur + "` не є дійсним цілим числом!", Color.RED);
                 return;
             }
 
@@ -364,23 +366,23 @@ public class Listener extends ListenerAdapter {
                 else if (timeunit.toLowerCase().matches("^(h(ours?)?)|st")) time = TimeUnit.HOURS;
                 else if (timeunit.toLowerCase().matches("^(d(ays?)?)|t")) time = TimeUnit.DAYS;
                 else {
-                    sendMessage(ev, "Unit not supported", "Please choose between seconds, minutes, hours and days! ❌", Color.RED);
+                    sendMessage(ev, "Одиниця не підтримується", "Виберіть секунди, хвилини, години та дні! ❌", Color.RED);
                     return;
                 }
             } else time = TimeUnit.SECONDS;
 
             boolean paused = musicManager.handler.pause(duration, time);
             if (paused) {
-                sendMessage(ev, "Pausing", String.join(" ", "The bot is going to pause in", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
+                sendMessage(ev, "Пауза", String.join(" ", "Бот збирається зупинитися", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
             } else {
-                sendMessage(ev, "Continuing", String.join(" ", "The bot is going to continue playing in", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
+                sendMessage(ev, "Продовження", String.join(" ", "Бот продовжить гру", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
             }
         } else {
             boolean paused = musicManager.handler.pause();
             if (paused) {
-                sendMessage(ev, "Pausing","The bot is pausing", Color.GREEN);
+                sendMessage(ev, "Пауза","Бот застопився", Color.GREEN);
             } else {
-                sendMessage(ev, "Resuming", "The bot is resuming", Color.GREEN);
+                sendMessage(ev, "Відновлення", "Бот продовжує", Color.GREEN);
             }
         }
     }
@@ -388,7 +390,7 @@ public class Listener extends ListenerAdapter {
     private void shuffle(IReplyCallback ev, MusicManager musicManager) {
 
         musicManager.handler.shuffle();
-        sendMessage(ev, "Shuffling", "The list has successfully been shuffled", Color.GREEN);
+        sendMessage(ev, "Перетасування", "Список успішно перемішано", Color.GREEN);
 
     }
 
@@ -403,13 +405,13 @@ public class Listener extends ListenerAdapter {
         looped = musicManager.handler.isLooped();
         if (looped.getKey()) {
             if (looped.getValue()) {
-                sendMessage(ev, "Looping single track",
-                        "I'm going to loop `" + musicManager.player.getPlayingTrack().getInfo().title + "`!", Color.GREEN);
+                sendMessage(ev, "Зациклення одного треку",
+                        "Я збираюся зациклити `" + musicManager.player.getPlayingTrack().getInfo().title + "`!", Color.GREEN);
             } else {
-                sendMessage(ev, "Looping playlist", "I'm going to loop this playlist upon completion", Color.GREEN);
+                sendMessage(ev, "Зациклений плейлист", "Я збираюся зациклити цей список відтворення після завершення", Color.GREEN);
             }
         } else {
-            sendMessage(ev, "Not looping", "I'm not going to repeat tracks, that have already been played", Color.GREEN);
+            sendMessage(ev, "Не зациклюється", "Я не буду повторювати треки, які вже грали", Color.GREEN);
         }
 
     }
@@ -421,19 +423,19 @@ public class Listener extends ListenerAdapter {
             int percent = musicManager.player.getVolume();
             int set = Integer.parseInt(volume);
             if (set <= 0) {
-                sendMessage(ev, "I'm not going to play silently", "If you don't want to listen to a specific part of the track, please use `/jump [seconds]`", Color.RED);
+                sendMessage(ev, "Шо за падло закрило мені рот", "Якщо ви не хочете слухати певну частину треку, використовуйте `/jump [секунди]`", Color.RED);
                 return;
             } else if (set > 1000) {
-                sendMessage(ev, "That's way too loud", "If you want to blast your hears, I recommend 1000%, which is the maximum", Color.RED);
+                sendMessage(ev, "Це надто голосно", "Якщо ви хочете насолодитись, я рекомендую 1000%, що є максимумом", Color.RED);
                 return;
             }
             musicManager.handler.volume(set);
-            sendMessage(ev, "Volume modified",
-                    String.join("", "The volume has been set from `", String.valueOf(percent), "%` to `", volume, "%`"), Color.GREEN);
+            sendMessage(ev, "Гучність",
+                    String.join("", "Гучність змінена від `", String.valueOf(percent), "%` до `", volume, "%`"), Color.GREEN);
 
         } catch(NumberFormatException ex) {
 
-            sendMessage(ev, "Invalid number", volume + " is not an integer number!", Color.RED);
+            sendMessage(ev, "Невірне число", volume + " не є цілим числом!", Color.RED);
 
         }
     }
@@ -446,13 +448,13 @@ public class Listener extends ListenerAdapter {
             if (musicManager.handler.skip(skip)) {
                 sendMessage(ev, String.join(" ", "Skipped", String.valueOf(skip), skip <= 1 ? "track" : "tracks"), null, Color.GREEN);
             } else {
-                if (skip >= 1) sendMessage(ev, "Number not accepted", "The playlist isn't that big", Color.RED);
-                else sendMessage(ev, "Number not accepted", "You can't skip backwards, sorry", Color.RED);
+                if (skip >= 1) sendMessage(ev, "Число не приймається", "Список відтворення не такий великий", Color.RED);
+                else sendMessage(ev, "Число не приймається", "Ви не можете перейти назад, вибачте(нюхай бебру)", Color.RED);
             }
 
         } catch(NumberFormatException ex) {
 
-            sendMessage(ev, "Invalid number", amount + " is not an integer number!", Color.RED);
+            sendMessage(ev, "Невірне число", amount + " не є цілим числом!", Color.RED);
 
         }
 
@@ -462,29 +464,29 @@ public class Listener extends ListenerAdapter {
 
         try {
             int secs = Integer.parseInt(seconds);
-            String msg = secs < 0 ? "If you want to hear this track again, please use `/loop true`" : "If you want to play the next track, please use `/skip`";
+            String msg = secs < 0 ? "Якщо ви бажаєте прослухати цей трек знову, будь ласка, використовуйте `/loop true`" : "Якщо ви хочете відтворити наступний трек, будь ласка, використовуйте `/skip`.";
             if (musicManager.handler.jump(secs)) {
-                sendMessage(ev, "Jumping...", "Skipped `" + secs + "s`", Color.GREEN);
+                sendMessage(ev, "Перелистую...", "Пропущено `" + secs + "s`", Color.GREEN);
             } else {
-                sendMessage(ev, "Song is not that long", msg, Color.RED);
+                sendMessage(ev, "Пісня не така вже й довга", msg, Color.RED);
             }
         } catch(NumberFormatException ex) {
-            sendMessage(ev, "Invalid number", seconds + " is not an integer number!", Color.RED);
+            sendMessage(ev, "Невірне число", seconds + " не є цілим числом!", Color.RED);
         }
     }
 
     private void queue(IReplyCallback ev, MusicManager musicManager) {
 
         List<AudioTrack> list = musicManager.handler.getQueue();
-        EmbedBuilder embed = new EmbedBuilder().setTitle("Queue").setColor(Color.CYAN);
-        embed.setDescription("Currently playing: **" + list.get(0).getInfo().title + "** by **" + list.get(0).getInfo().author + "**");
+        EmbedBuilder embed = new EmbedBuilder().setTitle("Черга").setColor(Color.CYAN);
+        embed.setDescription("Зараз грає: **" + list.get(0).getInfo().title + "** від автора **" + list.get(0).getInfo().author + "**");
         for (int i = 1; i <= Math.min(20, list.size() - 1); i++) {
 
             embed.appendDescription("\n" + i + ".  " + (i >= 10 ? "" : " ") + "`" + list.get(i).getInfo().title + "` by `" + list.get(i).getInfo().author + "`");
 
         }
         if (list.size() > 21) {
-            embed.appendDescription("\n*+ " + (list.size() - 21) + " more...*");
+            embed.appendDescription("\n*+ " + (list.size() - 21) + " більше...*");
         }
 
         if(ev == null) Card.getChannel().sendMessageEmbeds(embed.build()).queue(msg -> msg.delete().queueAfter(15L, TimeUnit.SECONDS));
@@ -513,11 +515,11 @@ public class Listener extends ListenerAdapter {
         String id = info.uri.replace("https://www.youtube.com/watch?v=","");
         boolean isYt = !id.equals(info.uri);
 
-        ev.replyEmbeds(new EmbedBuilder().setTitle("Currently playing:")
-                .setDescription("Title: `" + info.title + "`\n")
-                .appendDescription("Author: `" + info.author + "`\n")
-                .appendDescription("Duration: `" + ((hours > 0) ? (hours + "h ") : "") + (mins >= 10 ? "" : "0") + mins + "min " + (secs >= 10 ? "" : "0") + secs + "s`\n")
-                .appendDescription("Current position: `" + ((poshours > 0) ? (poshours + " : ") : "") + (posmins >= 10 ? "" : "0") + posmins + " : " + (possecs >= 10 ? "" : "0") + possecs + "`")
+        ev.replyEmbeds(new EmbedBuilder().setTitle("Зараз грає:")
+                .setDescription("Назва: `" + info.title + "`\n")
+                .appendDescription("Автор: `" + info.author + "`\n")
+                .appendDescription("Тривалість: `" + ((hours > 0) ? (hours + "h ") : "") + (mins >= 10 ? "" : "0") + mins + "min " + (secs >= 10 ? "" : "0") + secs + "s`\n")
+                .appendDescription("Поточний час: `" + ((poshours > 0) ? (poshours + " : ") : "") + (posmins >= 10 ? "" : "0") + posmins + " : " + (possecs >= 10 ? "" : "0") + possecs + "`")
                 .setThumbnail(isYt ? "https://img.youtube.com/vi/" + id + "/hqdefault.jpg" : null).build()).setEphemeral(true).queue();
     }
 
@@ -527,14 +529,14 @@ public class Listener extends ListenerAdapter {
 
             int percentage = Integer.parseInt(amount);
             if (Math.abs(percentage - 250) > 250) {
-                sendMessage(ev, "Invalid number", "Only numbers between 0 and 500 are accepted!", Color.RED);
+                sendMessage(ev, "Невірне число", "Приймаються лише числа від 0 до 500!", Color.RED);
                 return;
             }
             int from = musicManager.bassboost(percentage);
-            sendMessage(ev, "Bass Boost", "Set the bass boost from " + from + " to " + percentage, Color.GREEN);
+            sendMessage(ev, "Басс буст", "Встановіть посилення низьких частот від " + from + " до " + percentage, Color.GREEN);
 
         }catch(NumberFormatException ex) {
-            sendMessage(ev, "Invalid number", amount + " is not a valid number!", Color.RED);
+            sendMessage(ev, "Число", amount + " не є файним!", Color.RED);
         }
     }
 

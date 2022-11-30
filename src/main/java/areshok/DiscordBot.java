@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 import static areshok.Secret.botToken;
 
+//MTAwNjY4NTg0MTczMDU4ODc3Ng.GIaA29._BB6zRP_Jt_UE4LNyEQP5kjmi4zpCfsarbB88c
+
 public class DiscordBot {
 
     public static JDA jda;

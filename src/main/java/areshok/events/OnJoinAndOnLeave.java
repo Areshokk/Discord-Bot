@@ -29,7 +29,7 @@ public class OnJoinAndOnLeave extends ListenerAdapter {
 
         System.out.println(event.getMember());
        final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
-       //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("висоцький-підар",true);
+       //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("welcum",true);
 
 
        if (dontDoThis.isEmpty()) {
@@ -50,7 +50,7 @@ public class OnJoinAndOnLeave extends ListenerAdapter {
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
         System.out.println(event.getMember());
         final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
-        //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("висоцький-підар", true);
+        //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("welcum", true);
 
         if (dontDoThis.isEmpty()) {
             return;

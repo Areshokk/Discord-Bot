@@ -62,11 +62,11 @@ public class Card {
 
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.MAGENTA)
-                .setTitle("Playing " + info.title)
-                .setDescription("Author: `" + info.author + "`\n")
-                .appendDescription("Duration: `" + (hours > 0 ? ((hours < 10 ? "0" : "") + hours + "h ") : "") + (mins < 10 ? "0" : "") + mins + "min " + (secs < 10 ? "0" : "") + secs + "s`\n")
-                .appendDescription("Source: " + info.uri + "\n")
-                .appendDescription("Next: `" + nextTrack + "`")
+                .setTitle("Грає " + info.title)
+                .setDescription("Автор: `" + info.author + "`\n")
+                .appendDescription("Тривалість: `" + (hours > 0 ? ((hours < 10 ? "0" : "") + hours + "h ") : "") + (mins < 10 ? "0" : "") + mins + "min " + (secs < 10 ? "0" : "") + secs + "s`\n")
+                .appendDescription("Джерело: " + info.uri + "\n")
+                .appendDescription("Наступний: `" + nextTrack + "`")
                 .setThumbnail((isYt ? "https://img.youtube.com/vi/" + id + "/hqdefault.jpg" : null)).build();
 
         if(msg == null) {
@@ -96,8 +96,8 @@ public class Card {
         if(paused) {
 
             msg.editMessageEmbeds(new EmbedBuilder()
-                    .setTitle("Paused!")
-                    .setDescription("The bot is currently taking a break!")
+                    .setTitle("Призупинено!")
+                    .setDescription("Я хочу спочити!")
                     .setColor(Color.cyan).build()).queue(result -> msg.clearReactions().queue(result1 -> {
                 msg.addReaction(resume).queue();
                 msg.addReaction(queue).queue();

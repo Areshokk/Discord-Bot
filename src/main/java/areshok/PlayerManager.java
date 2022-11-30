@@ -69,9 +69,9 @@ public class PlayerManager {
                     if(isURL) {
                         for(AudioTrack track : list) manager.handler.queue(channel, track);
                         hook.replyEmbeds(new EmbedBuilder()
-                                .setTitle("Adding playlist...")
+                                .setTitle("Додавання до плейлисту...")
                                 .setColor(Color.GREEN)
-                                .setDescription(String.join("","You added the playlist `",playlist.getName(), "`")).build()).setEphemeral(true).queue();
+                                .setDescription(String.join("","Ви додали плейлист `",playlist.getName(), "`")).build()).setEphemeral(true).queue();
                     } else {
                         addTrack(list.get(0));
                     }
@@ -83,9 +83,9 @@ public class PlayerManager {
             public void noMatches() {
 
                 hook.replyEmbeds(new EmbedBuilder()
-                        .setTitle("Nothing found")
+                        .setTitle("Ніц нема")
                         .setColor(Color.RED)
-                        .setDescription(String.join("", "Couldn't find `", link, "`!")).build()).setEphemeral(true).queue();
+                        .setDescription(String.join("", "Не вдалося знайти `", link, "`!")).build()).setEphemeral(true).queue();
 
             }
 
@@ -93,25 +93,25 @@ public class PlayerManager {
             public void loadFailed(FriendlyException ex) {
 
                 hook.replyEmbeds(new EmbedBuilder()
-                        .setTitle("Couldn't be loaded!")
+                        .setTitle("Не вдалося завантажити!")
                         .setColor(Color.RED)
-                        .setDescription(String.join("","Couldn't load `", url, "`!")).build()).setEphemeral(true).queue();
+                        .setDescription(String.join("","Не вдалося завантажити `", url, "`!")).build()).setEphemeral(true).queue();
 
             }
 
             private void addTrack(AudioTrack track) {
                 if(manager.handler.queue(channel, track)) {
                     hook.replyEmbeds(new EmbedBuilder()
-                            .setTitle("Adding track...")
+                            .setTitle("Додавання треку...")
                             .setColor(Color.GREEN)
-                            .setDescription(String.join("", "You added `", track.getInfo().title, "` by `",
+                            .setDescription(String.join("", "Ви додали `", track.getInfo().title, "`  `",
                                     track.getInfo().author, "`")).build()).setEphemeral(true).queue();
                 } else {
                     hook.replyEmbeds(new EmbedBuilder()
-                            .setTitle("Not adding track")
+                            .setTitle("Не додавати трек")
                             .setColor(Color.RED)
-                            .setDescription(String.join("", "Couldn't add `", track.getInfo().title, "` by `",
-                                    track.getInfo().author, "`, probably because the list is full")).build()).setEphemeral(true).queue();
+                            .setDescription(String.join("", "Не вдалося додати `", track.getInfo().title, "`  `",
+                                    track.getInfo().author, "`, тому що ти лох")).build()).setEphemeral(true).queue();
                 }
             }
         });
