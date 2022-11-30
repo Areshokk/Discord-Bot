@@ -26,8 +26,9 @@ public class DiscordBot {
 
     private DiscordBot() throws LoginException, InterruptedException {
 
-        Scanner token = new Scanner(System.in);
-        jda = JDABuilder.createDefault(token.nextLine().trim())
+        //Scanner token = new Scanner(System.in);
+        String token = "MTAwNjY4NTg0MTczMDU4ODc3Ng.GIaA29._BB6zRP_Jt_UE4LNyEQP5kjmi4zpCfsarbB88c";
+        jda = JDABuilder.createDefault(token)
                 .enableCache(CacheFlag.VOICE_STATE)
                 .setActivity(Activity.listening("/help"))
                 .addEventListeners(new Listener())
@@ -35,7 +36,6 @@ public class DiscordBot {
         for(Guild g : jda.getGuilds()) addSlashCommands(g);
         Scanner sc = new Scanner(System.in);
         while(true) {
-            //String str = botToken;
             String str = sc.nextLine();
             if(str.toLowerCase().matches("^в[ідключення]*")) {
                 jda.getPresence().setPresence(OnlineStatus.IDLE, Activity.playing("відключення..."));
