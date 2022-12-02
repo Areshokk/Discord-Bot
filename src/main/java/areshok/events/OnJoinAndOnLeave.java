@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +29,8 @@ public class OnJoinAndOnLeave extends ListenerAdapter {
         event.getGuild().addRoleToMember(UserSnowflake.fromId(event.getMember().getId()), Objects.requireNonNull(event.getGuild().getRoleById(1043657866730537040L))).queue();
 
         System.out.println(event.getMember());
-       final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
-       //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("welcum",true);
+       //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
+       final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("welcum",true);
 
 
        if (dontDoThis.isEmpty()) {
@@ -49,8 +50,8 @@ public class OnJoinAndOnLeave extends ListenerAdapter {
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
         System.out.println(event.getMember());
-        final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
-        //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("welcum", true);
+        //final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("chat",true);
+        final List<TextChannel> dontDoThis = event.getGuild().getTextChannelsByName("welcum", true);
 
         if (dontDoThis.isEmpty()) {
             return;

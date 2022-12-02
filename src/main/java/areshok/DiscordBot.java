@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import static areshok.Secret.botToken;
@@ -33,8 +36,12 @@ public class DiscordBot {
                 .setActivity(Activity.listening("/help"))
                 .addEventListeners(new Listener())
                 .build().awaitReady();
-        for(Guild g : jda.getGuilds()) addSlashCommands(g);
+
+        for(Guild g : jda.getGuilds())
+            addSlashCommands(g);
+
         Scanner sc = new Scanner(System.in);
+
         while(true) {
             String str = sc.nextLine();
             if(str.toLowerCase().matches("^в[ідключення]*")) {
@@ -72,12 +79,13 @@ public class DiscordBot {
         g.upsertCommand("shuffle","Перемішує список відтворення").queue();
         g.upsertCommand("loop","Повторює поточну запис або список відтворення")
                 .addOption(OptionType.BOOLEAN,"track","Чи повинен він повторювати список відтворення або тільки трек, що відтворюється",false).queue();
-        g.upsertCommand("bass", "Підсилює баси треку на задану величину")
+        g.upsertCommand("bass", "Підсилює баси треку")
                 .addOption(OptionType.INTEGER, "amount", "Відсоток посилення низьких частот", false).queue(); //req
         g.upsertCommand("info","Показує інформацію про поточний трек").queue();
         g.upsertCommand("help","Він надішле вам інструкції про те, як ви маєте його використовувати.").queue();
 
     }
+
 }
 
 

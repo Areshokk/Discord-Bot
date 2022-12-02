@@ -38,7 +38,7 @@ public class Listener extends ListenerAdapter {
         Guild g = ev.getGuild();
 
         if(g == null || m == null) {
-            sendMessage(ev, "Please do not DM me!", "Instead use these commands on servers. Don't worry, only you can see my responses.", Color.RED);
+            sendMessage(ev, "Не пиши мені!  падло", "Використовуйте ці команди на серверах. Тільки ви можете бачити мої відповіді.", Color.RED);
             return;
         }
 
@@ -75,23 +75,23 @@ public class Listener extends ListenerAdapter {
                 else var = mem.getAsMention();
                 ev.replyEmbeds(new EmbedBuilder()
                                 .setColor(Color.MAGENTA)
-                                .setTitle("Help")
-                                .addField("/join", "Приєднання до каналу", false)
-                                .addField("/quit", "Покидаю канал", false)
+                                .setTitle("Інфа")
+                                .addField("/join", "Приєднається до вашого каналу", false)
+                                .addField("/quit", "Покине ваш канал", false)
                                 .addField("/play [Назва/Лінка]", "Відтворення заданого треку(ів)", false)
-                                .addField("/pause {Тривалість}", "Робить перерву", false)
+                                .addField("/pause {Тривалість}", "Робить паузу", false)
                                 .addField("/queue", "Показує список відтворення", false)
                                 .addField("/skip", "Пропускає поточний трек", false)
                                 .addField("/volume [Відсоток]", "Регулює гучність", false)
                                 .addField("/jump [Секунд]", "Пропускає кількість секунд поточного треку", false)
                                 .addField("/shuffle", "Перемішує список відтворення", false)
                                 .addField("/loop {трек}", "Повторює поточний трек або список відтворення", false)
-                                .addField("/stop", "Припиняє грати", false)
+                                .addField("/stop", "Закриє рот", false)
                                 .addField("/info", "Показує детальну інформацію про поточний трек", false)
                                 .addField("/bass [Відсоток]", "Підсилює бас", false)
                                 .addField("/help", "Показує цей список", false)
                                 .setDescription("Якщо вас щось не влаштовує або у вас є пропозиції щодо покращення, будь ласка, зв'яжіться зі мною за адресою " + var).build())
-                        .addActionRows(ActionRow.of(Button.success("support", "Підтримка"))).setEphemeral(true).queue();
+                        .addActionRows(ActionRow.of(Button.success("support", "Допомога"))).setEphemeral(true).queue();
             }
             case "play" -> {
 
@@ -100,7 +100,7 @@ public class Listener extends ListenerAdapter {
                     TextInput input = TextInput.create("title", "Назва або посилання", TextInputStyle.SHORT)
                             .setMinLength(1)
                             .setRequired(true)
-                            .setPlaceholder("e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+                            .setPlaceholder("напр. https://www.youtube.com/watch?v=dQw4w9WgXcQ")
                             .build();
 
                     Modal modal = Modal.create("title-ask", "Вкажіть трек[и]:")
@@ -120,7 +120,7 @@ public class Listener extends ListenerAdapter {
                             .setPlaceholder("наприклад, 10").build();
 
                     TextInput unit = TextInput.create("unit", "Одиниця часу", TextInputStyle.SHORT)
-                            .setPlaceholder("наприклад, секунди (скорочено: s)")
+                            .setPlaceholder("наприклад, (s,m,h,d)")
                             .setRequired(false)
                             .build();
 
@@ -182,7 +182,7 @@ public class Listener extends ListenerAdapter {
                 if(!args.containsKey("amount")) {
                     TextInput input = TextInput.create("bass-num", "Басс буст", TextInputStyle.SHORT)
                             .setRequired(true)
-                            .setPlaceholder("у відсотках (спочатку 0)")
+                            .setPlaceholder("у відсотках (за замовчуванням 0)")
                             .build();
 
                     Modal modal = Modal.create("bass", "Басс")
@@ -210,15 +210,15 @@ public class Listener extends ListenerAdapter {
         switch(ev.getModalId()) {
             case "support" -> {
                 String msg = ev.getValue("sup-msg").getAsString();
-                User user = DiscordBot.jda.getUserById(406780230645186561L);
+                User user = DiscordBot.jda.getUserById(500568425798696971L);
                 assert user != null;
                 PrivateChannel channel = user.openPrivateChannel().complete();
                 channel.sendMessageEmbeds(new EmbedBuilder()
                         .setColor(Color.MAGENTA)
-                        .setTitle("Підтримка für " + ev.getGuild().getName())
-                        .setDescription(ev.getUser().getAsTag() + " needs help!")
+                        .setTitle("Підтримка " + ev.getGuild().getName())
+                        .setDescription(ev.getUser().getAsTag() + " потребує допомогу!")
                         .addField("Надіслано наступний текст:", msg, false).build()).queue();
-                sendMessage(ev, "Ура!", "Ваше повідомлення надіслано та наразі розглядається", Color.GREEN);
+                sendMessage(ev, "Грац!", "Ваше повідомлення надіслано та наразі розглядається", Color.GREEN);
             }
             case "title-ask" -> play(ev, g, m, ev.getValue("title").getAsString());
             case "pause" -> pause(ev, musicManager, ev.getValue("when") == null ? null : ev.getValue("when").getAsString(),
@@ -283,7 +283,7 @@ public class Listener extends ListenerAdapter {
         if((id = ev.getButton().getId()) == null) return;
         if ("support".equals(id)) {
             TextInput input = TextInput.create("sup-msg", "Message", TextInputStyle.PARAGRAPH)
-                    .setPlaceholder("e.g. why is the bot not playing?")
+                    .setPlaceholder("якісь трабли?")
                     .setRequired(true)
                     .setMinLength(10).build();
             Modal modal = Modal.create("support", "Support")
@@ -309,7 +309,7 @@ public class Listener extends ListenerAdapter {
             return;
         }
         if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи за когось іншого! 💔", Color.RED);
+            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи для когось іншого! 💔", Color.RED);
             return;
         }
 
@@ -330,7 +330,7 @@ public class Listener extends ListenerAdapter {
             } else g.getAudioManager().openAudioConnection(activeVChannel = m.getVoiceState().getChannel());
         }
         if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи за когось іншого.! 💔", Color.RED);
+            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи для когось іншого.! 💔", Color.RED);
             return;
         }
 
@@ -340,7 +340,7 @@ public class Listener extends ListenerAdapter {
     private void stop(IReplyCallback ev, MusicManager musicManager) {
 
         musicManager.handler.stop();
-        sendMessage(ev, "Зупинення", "Мб хочеш щось інше?", Color.GREEN);
+        sendMessage(ev, "Мовчу", "нашо ти це зробив?", Color.GREEN);
         DiscordBot.jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.listening("/help"));
 
     }
@@ -366,16 +366,16 @@ public class Listener extends ListenerAdapter {
                 else if (timeunit.toLowerCase().matches("^(h(ours?)?)|st")) time = TimeUnit.HOURS;
                 else if (timeunit.toLowerCase().matches("^(d(ays?)?)|t")) time = TimeUnit.DAYS;
                 else {
-                    sendMessage(ev, "Одиниця не підтримується", "Виберіть секунди, хвилини, години та дні! ❌", Color.RED);
+                    sendMessage(ev, "Число не підтримується", "Виберіть секунди, хвилини, години та дні! ❌", Color.RED);
                     return;
                 }
             } else time = TimeUnit.SECONDS;
 
             boolean paused = musicManager.handler.pause(duration, time);
             if (paused) {
-                sendMessage(ev, "Пауза", String.join(" ", "Бот збирається зупинитися", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
+                sendMessage(ev, "Пауза", String.join(" ", "Бот зупинитися через ", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
             } else {
-                sendMessage(ev, "Продовження", String.join(" ", "Бот продовжить гру", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
+                sendMessage(ev, "Продовження", String.join(" ", "Бот продовжить гру через ", String.valueOf(duration), time.name(), " ⏰"), Color.GREEN);
             }
         } else {
             boolean paused = musicManager.handler.pause();
@@ -426,7 +426,7 @@ public class Listener extends ListenerAdapter {
                 sendMessage(ev, "Шо за падло закрило мені рот", "Якщо ви не хочете слухати певну частину треку, використовуйте `/jump [секунди]`", Color.RED);
                 return;
             } else if (set > 1000) {
-                sendMessage(ev, "Це надто голосно", "Якщо ви хочете насолодитись, я рекомендую 1000%, що є максимумом", Color.RED);
+                sendMessage(ev, "Це надто голосно", "Якщо ви неадекват, я рекомендую 1000%, що є максимумом", Color.RED);
                 return;
             }
             musicManager.handler.volume(set);

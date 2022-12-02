@@ -66,7 +66,7 @@ public class Card {
                 .setDescription("Автор: `" + info.author + "`\n")
                 .appendDescription("Тривалість: `" + (hours > 0 ? ((hours < 10 ? "0" : "") + hours + "h ") : "") + (mins < 10 ? "0" : "") + mins + "min " + (secs < 10 ? "0" : "") + secs + "s`\n")
                 .appendDescription("Джерело: " + info.uri + "\n")
-                .appendDescription("Наступний: `" + nextTrack + "`")
+                .appendDescription("Наступний трек: `" + nextTrack + "`")
                 .setThumbnail((isYt ? "https://img.youtube.com/vi/" + id + "/hqdefault.jpg" : null)).build();
 
         if(msg == null) {
@@ -96,7 +96,7 @@ public class Card {
         if(paused) {
 
             msg.editMessageEmbeds(new EmbedBuilder()
-                    .setTitle("Призупинено!")
+                    .setTitle("Пауза!")
                     .setDescription("Я хочу спочити!")
                     .setColor(Color.cyan).build()).queue(result -> msg.clearReactions().queue(result1 -> {
                 msg.addReaction(resume).queue();

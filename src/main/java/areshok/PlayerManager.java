@@ -108,7 +108,7 @@ public class PlayerManager {
                                     track.getInfo().author, "`")).build()).setEphemeral(true).queue();
                 } else {
                     hook.replyEmbeds(new EmbedBuilder()
-                            .setTitle("Не додавати трек")
+                            .setTitle("Не вдалось додавати трек")
                             .setColor(Color.RED)
                             .setDescription(String.join("", "Не вдалося додати `", track.getInfo().title, "`  `",
                                     track.getInfo().author, "`, тому що ти лох")).build()).setEphemeral(true).queue();
