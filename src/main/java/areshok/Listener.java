@@ -253,10 +253,10 @@ public class Listener extends ListenerAdapter {
             else if(ev.getEmoji().equals(Card.jump)) jump(null, musicManager, "10");
             else if(ev.getEmoji().equals(Card.shuffle)) shuffle(null, musicManager);
             else if(ev.getEmoji().equals(Card.skip)) skip(null, musicManager, "1");
-            else if(ev.getEmoji().equals(Card.bass1)) bass(null, musicManager, Integer.toString(musicManager.bassboost - 5));
-            else if(ev.getEmoji().equals(Card.bass2)) bass(null, musicManager, Integer.toString(musicManager.bassboost + 5));
-            else if(ev.getEmoji().equals(Card.volume1)) volume(null, musicManager, Integer.toString(musicManager.player.getVolume() - 5));
-            else if(ev.getEmoji().equals(Card.volume2)) volume(null, musicManager, Integer.toString(musicManager.player.getVolume() + 5));
+            else if(ev.getEmoji().equals(Card.bass1)) bass(null, musicManager, Integer.toString(musicManager.bassboost - 10));
+            else if(ev.getEmoji().equals(Card.bass2)) bass(null, musicManager, Integer.toString(musicManager.bassboost + 10));
+            else if(ev.getEmoji().equals(Card.volume1)) volume(null, musicManager, Integer.toString(musicManager.player.getVolume() - 10));
+            else if(ev.getEmoji().equals(Card.volume2)) volume(null, musicManager, Integer.toString(musicManager.player.getVolume() + 10));
         }
         if(ev.getEmoji().equals(Card.quit)) quit(null, g, m, musicManager);
         else if(ev.getEmoji().equals(Card.stop)) stop(null, musicManager);
@@ -329,10 +329,10 @@ public class Listener extends ListenerAdapter {
                 return;
             } else g.getAudioManager().openAudioConnection(activeVChannel = m.getVoiceState().getChannel());
         }
-        if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи для когось іншого.! 💔", Color.RED);
-            return;
-        }
+//        if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
+//            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи для когось іншого.! 💔", Color.RED);
+//            return;
+//        }
 
         PlayerManager.getINSTANCE().load((TextChannel) ev.getMessageChannel(), ev, arg);
     }

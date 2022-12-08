@@ -199,7 +199,7 @@ public class TrackHandler extends AudioEventAdapter {
         Card.updateMessage(currentTrack,
                 looped.getKey() && looped.getValue() ?
                         currentTrack.getInfo().title
-                        : (queue.peek() == null ? (looped.getKey() && !loopedQueue.isEmpty() ? loopedQueue.peek().getInfo().title : "None")
+                        : (queue.peek() == null ? (looped.getKey() && !loopedQueue.isEmpty() ? loopedQueue.peek().getInfo().title : "ніц нема")
                         : queue.peek().getInfo().title));
     }
 }
