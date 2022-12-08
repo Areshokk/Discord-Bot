@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 import static areshok.Secret.botToken;
 
-//MTAwNjY4NTg0MTczMDU4ODc3Ng.GIaA29._BB6zRP_Jt_UE4LNyEQP5kjmi4zpCfsarbB88c
+
 
 public class DiscordBot {
 
@@ -30,12 +30,16 @@ public class DiscordBot {
     private DiscordBot() throws LoginException, InterruptedException {
 
         //Scanner token = new Scanner(System.in);
-        String token = "MTAwNjY4NTg0MTczMDU4ODc3Ng.GIaA29._BB6zRP_Jt_UE4LNyEQP5kjmi4zpCfsarbB88c";
+        String token = "MTAwNjY4NTg0MTczMDU4ODc3Ng.Gy1Fra.rvDENrFxKDnHqj1mYXkJa6jArxxmWVdDKjmWkM";
+
         jda = JDABuilder.createDefault(token)
                 .enableCache(CacheFlag.VOICE_STATE)
                 .setActivity(Activity.listening("/help"))
                 .addEventListeners(new Listener())
                 .build().awaitReady();
+
+
+        System.out.println(jda.getGuilds());
 
         for(Guild g : jda.getGuilds())
             addSlashCommands(g);

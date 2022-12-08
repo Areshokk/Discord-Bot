@@ -201,7 +201,7 @@ public class Listener extends ListenerAdapter {
         Member m = ev.getMember();
         Guild g;
         if((g = ev.getGuild()) == null) {
-            sendMessage(ev, "П о м и л к а", "Не зміг знайти гільдії", Color.RED);
+            sendMessage(ev, "П о м и л к а", "Не зміг знайти сервер", Color.RED);
             return;
         }
 
@@ -446,7 +446,7 @@ public class Listener extends ListenerAdapter {
 
             int skip = Integer.parseInt(amount);
             if (musicManager.handler.skip(skip)) {
-                sendMessage(ev, String.join(" ", "Skipped", String.valueOf(skip), skip <= 1 ? "track" : "tracks"), null, Color.GREEN);
+                sendMessage(ev, String.join(" ", "Пропущено", String.valueOf(skip), skip <= 1 ? "трек" : "треків"), null, Color.GREEN);
             } else {
                 if (skip >= 1) sendMessage(ev, "Число не приймається", "Список відтворення не такий великий", Color.RED);
                 else sendMessage(ev, "Число не приймається", "Ви не можете перейти назад, вибачте(нюхай бебру)", Color.RED);
@@ -533,7 +533,7 @@ public class Listener extends ListenerAdapter {
                 return;
             }
             int from = musicManager.bassboost(percentage);
-            sendMessage(ev, "Басс буст", "Встановіть посилення низьких частот від " + from + " до " + percentage, Color.GREEN);
+            sendMessage(ev, "Басс буст", "Бас змінений з " + from + " до " + percentage, Color.GREEN);
 
         }catch(NumberFormatException ex) {
             sendMessage(ev, "Число", amount + " не є файним!", Color.RED);

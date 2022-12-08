@@ -26,6 +26,7 @@ public class OnJoinAndOnLeave extends ListenerAdapter {
 //            event.getMember().removeTimeout().queue();
 //        }
 
+
         event.getGuild().addRoleToMember(UserSnowflake.fromId(event.getMember().getId()), Objects.requireNonNull(event.getGuild().getRoleById(1043657866730537040L))).queue();
 
         System.out.println(event.getMember());
