@@ -308,11 +308,6 @@ public class Listener extends ListenerAdapter {
             sendMessage(ev, "Ха ха ха", "Мене ніде нема! 👊", Color.RED);
             return;
         }
-        if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи для когось іншого! 💔", Color.RED);
-            return;
-        }
-
         sendMessage(ev, "бб", "нюхай бебру! 👋", Color.MAGENTA);
         activeVChannel = null;
         musicManager.handler.stop();
@@ -329,10 +324,6 @@ public class Listener extends ListenerAdapter {
                 return;
             } else g.getAudioManager().openAudioConnection(activeVChannel = m.getVoiceState().getChannel());
         }
-//        if (m.getVoiceState() != null && m.getVoiceState().getChannel() != null && !m.getVoiceState().getChannel().equals(activeVChannel) && activeVChannel.getMembers().size() > 1) {
-//            sendMessage(ev, "Вибачаюсь", "Я не можу це зробити, граючи для когось іншого.! 💔", Color.RED);
-//            return;
-//        }
 
         PlayerManager.getINSTANCE().load((TextChannel) ev.getMessageChannel(), ev, arg);
     }
