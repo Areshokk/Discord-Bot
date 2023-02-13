@@ -21,6 +21,7 @@ import static areshok.Secret.botToken;
 
 public class DiscordBot {
 
+    
         public static GatewayIntent[] INTENTS = {   GatewayIntent.DIRECT_MESSAGES,
             GatewayIntent.GUILD_MEMBERS,
             GatewayIntent.GUILD_MEMBERS,
