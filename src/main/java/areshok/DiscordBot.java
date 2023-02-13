@@ -5,12 +5,14 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static areshok.Secret.botToken;
@@ -18,6 +20,22 @@ import static areshok.Secret.botToken;
 
 
 public class DiscordBot {
+
+        public static GatewayIntent[] INTENTS = {   GatewayIntent.DIRECT_MESSAGES,
+            GatewayIntent.GUILD_MEMBERS,
+            GatewayIntent.GUILD_MEMBERS,
+            GatewayIntent.GUILD_BANS,
+            GatewayIntent.GUILD_WEBHOOKS,
+            GatewayIntent.GUILD_INVITES,
+            GatewayIntent.GUILD_VOICE_STATES,
+            GatewayIntent.GUILD_PRESENCES,
+            GatewayIntent.GUILD_MESSAGES,
+            GatewayIntent.GUILD_MESSAGE_REACTIONS,
+            GatewayIntent.GUILD_MESSAGE_TYPING,
+            GatewayIntent.DIRECT_MESSAGES,
+            GatewayIntent.MESSAGE_CONTENT,
+            GatewayIntent.DIRECT_MESSAGE_REACTIONS,
+            GatewayIntent.DIRECT_MESSAGE_TYPING};
 
     public static JDA jda;
 
@@ -32,10 +50,11 @@ public class DiscordBot {
         //Scanner token = new Scanner(System.in);
         String token = "MTAwNjY4NTg0MTczMDU4ODc3Ng.Gy1Fra.rvDENrFxKDnHqj1mYXkJa6jArxxmWVdDKjmWkM";
 
-        jda = JDABuilder.createDefault(token)
+        jda = JDABuilder.createDefault(token, Arrays.asList(INTENTS))
                 .enableCache(CacheFlag.VOICE_STATE)
                 .setActivity(Activity.listening("/help"))
                 .addEventListeners(new Listener())
+                .addEventListeners(new Hello())
                 .build().awaitReady();
 
 

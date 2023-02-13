@@ -1,10 +1,19 @@
 package areshok;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -12,6 +21,8 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -19,13 +30,20 @@ import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.managers.AudioManager;
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class Listener extends ListenerAdapter {
 
@@ -94,7 +112,6 @@ public class Listener extends ListenerAdapter {
                         .addActionRows(ActionRow.of(Button.success("support", "Допомога"))).setEphemeral(true).queue();
             }
             case "play" -> {
-
                 if(args.containsKey("title")) play(ev, g, m, args.get("title"));
                 else {
                     TextInput input = TextInput.create("title", "Назва або посилання", TextInputStyle.SHORT)
@@ -316,18 +333,6 @@ public class Listener extends ListenerAdapter {
 
     }
 
-    private void play(IReplyCallback ev, Guild g, Member m, String arg) {
-
-        if(activeVChannel == null) {
-            if(m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
-                sendMessage(ev, "Де?", "Зайди в канал падлюка 🙃", Color.RED);
-                return;
-            } else g.getAudioManager().openAudioConnection(activeVChannel = m.getVoiceState().getChannel());
-        }
-
-        PlayerManager.getINSTANCE().load((TextChannel) ev.getMessageChannel(), ev, arg);
-    }
-
     private void stop(IReplyCallback ev, MusicManager musicManager) {
 
         musicManager.handler.stop();
@@ -417,7 +422,7 @@ public class Listener extends ListenerAdapter {
                 sendMessage(ev, "Шо за падло закрило мені рот", "Якщо ви не хочете слухати певну частину треку, використовуйте `/jump [секунди]`", Color.RED);
                 return;
             } else if (set > 1000) {
-                sendMessage(ev, "Це надто голосно", "Якщо ви неадекват, я рекомендую 1000%, що є максимумом", Color.RED);
+                sendMessage(ev, "Це надто голосно", "Ти шо дурік, я рекомендую 1000%, що є максимумом", Color.RED);
                 return;
             }
             musicManager.handler.volume(set);
@@ -530,5 +535,135 @@ public class Listener extends ListenerAdapter {
             sendMessage(ev, "Число", amount + " не є файним!", Color.RED);
         }
     }
+
+    private void play(IReplyCallback ev, Guild g, Member m, String arg) {
+
+        if(activeVChannel == null) {
+            if(m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
+                sendMessage(ev, "Де?", "Зайди в канал падлюка 🙃", Color.RED);
+                return;
+            } else g.getAudioManager().openAudioConnection(activeVChannel = m.getVoiceState().getChannel());
+        }
+
+        PlayerManager.getINSTANCE().load((TextChannel) ev.getMessageChannel(), ev, arg);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    //TODO chchnuk
+//    @Override
+//    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
+//        System.out.println("Чел під ніком `" + event.getMember().getEffectiveName() + "` придєнався до голосового каналу: " + event.getChannelJoined().getName());
+//
+//        if (event.getMember().getId().equals("1038143630235406398")) {
+//            final AudioManager audioManager = event.getGuild().getAudioManager();
+//            final VoiceChannel memberChannel = (VoiceChannel) event.getChannelJoined();
+//
+//            audioManager.openAudioConnection(memberChannel);
+//
+//
+//            String link = "https://www.youtube.com/watch?v=BGkr7xTyJlg";
+//
+//            if(!isURL(link)){
+//                link = String.join(" ", "ytsearch:", link);
+//            }
+//
+//            loadAndPlay(Objects.requireNonNull(event.getGuild().getTextChannelById(946149189165912065L)), link);
+//        }
+//
+//    }
+//
+//    private final Map<Long, MusicManager> musicManagers;
+//    private final AudioPlayerManager audioPlayerManager;
+//
+//    public Listener(){
+//        this.musicManagers = new HashMap<>();
+//        this.audioPlayerManager = new DefaultAudioPlayerManager();
+//
+//        AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
+//        AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
+//    }
+//
+//    public MusicManager getMusicManager(Guild guild){
+//        return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
+//            final MusicManager guildMusicManager = new MusicManager(this.audioPlayerManager);
+//            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
+//            return guildMusicManager;
+//        });
+//    }
+//
+//    public void loadAndPlay(TextChannel textChannel, String trackUrl){
+//        final MusicManager musicManager = this.getMusicManager(textChannel.getGuild());
+//
+//        this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
+//            @Override
+//            public void trackLoaded(AudioTrack audioTrack) {
+//                musicManager.handler.queue(audioTrack);
+//
+//                textChannel.sendMessage("Чайник **`")
+//                        .append(audioTrack.getInfo().title)
+//                        .append("`** by **`")
+//                        .append(audioTrack.getInfo().author)
+//                        .append("`**")
+//                        .queue();
+//            }
+//
+//            @Override
+//            public void playlistLoaded(AudioPlaylist audioPlaylist) {
+//                final List<AudioTrack> tracks = audioPlaylist.getTracks();
+//                if(!tracks.isEmpty()){
+//                    musicManager.handler.queue(tracks.get(0));
+//                    textChannel.sendMessage("Чайник **`")
+//                            .append(tracks.get(0).getInfo().title)
+//                            .append("`** by **`")
+//                            .append(tracks.get(0).getInfo().author)
+//                            .append("`**")
+//                            .queue();
+//                }
+//            }
+//
+//            @Override
+//            public void noMatches() {
+//
+//            }
+//
+//            @Override
+//            public void loadFailed(FriendlyException e) {
+//
+//            }
+//        });
+//    }
+//
+//    private static boolean isURL(String link) {
+//
+//        try {
+//            new URI(link);
+//            return true;
+//        } catch(URISyntaxException ex) {
+//            return false;
+//        }
+//    }
+
+
+
+
 
 }

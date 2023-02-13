@@ -97,7 +97,7 @@ public class Card {
 
             msg.editMessageEmbeds(new EmbedBuilder()
                     .setTitle("Пауза!")
-                    .setDescription("Я хочу спочити!")
+                    .setDescription("Я спочиваю!")
                     .setColor(Color.cyan).build()).queue(result -> msg.clearReactions().queue(result1 -> {
                 msg.addReaction(resume).queue();
                 msg.addReaction(queue).queue();

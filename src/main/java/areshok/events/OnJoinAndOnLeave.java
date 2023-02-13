@@ -40,7 +40,7 @@ public class OnJoinAndOnLeave extends ListenerAdapter {
 
        final TextChannel pleaseDontDoThisAtAll = dontDoThis.get(0);
 
-       final String userGuildSpecificSettingInstead = String.format("<@%s> Загадка від Жака Фреско \nБуло 2 козла \nСкільки? ",
+       final String userGuildSpecificSettingInstead = String.format("Привіт, друже, я гадаю ти помилився дверима, гетероклуб двома поверхами вище. А якщо ні тоді\n<@%s> Загадка від Жака Фреско \nБуло 2 козла \nСкільки? ",
                event.getMember().getUser().getId());
 
        pleaseDontDoThisAtAll.sendMessage(userGuildSpecificSettingInstead).queue();

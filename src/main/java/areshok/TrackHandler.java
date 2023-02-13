@@ -31,12 +31,25 @@ public class TrackHandler extends AudioEventAdapter {
 
     }
 
+
+//    //TODO queue
+//    public void queue(AudioTrack track){
+//        if(!this.player.startTrack(track, true)){
+//            this.queue.offer(track);
+//        }
+//    }
+//
+//
+//
+//
+//
+
     public boolean queue(TextChannel infoCardChannel, AudioTrack track) {
 
-        if(!player.startTrack(track.makeClone(), true)) {
+        if (!player.startTrack(track.makeClone(), true)) {
 
             boolean value = queue.offer(track);
-            if(queue.size() == 1) updateInfoCard();
+            if (queue.size() == 1) updateInfoCard();
             loopedQueue.add(track);
             return value;
         } else {
@@ -54,7 +67,7 @@ public class TrackHandler extends AudioEventAdapter {
     public boolean jump(int secs) {
 
         long delta = player.getPlayingTrack().getPosition() + secs * 1000L;
-        if(delta >= player.getPlayingTrack().getDuration() && delta <= 0) {
+        if (delta >= player.getPlayingTrack().getDuration() && delta <= 0) {
             return false;
         } else {
             player.getPlayingTrack().setPosition(delta);
@@ -72,10 +85,10 @@ public class TrackHandler extends AudioEventAdapter {
     public boolean skip(int num) {
 
         currentTrack = null;
-        if(num < 1 && !next()) return false;
-        if(num >= queue.size() && loopNotPossible()) return false;
+        if (num < 1 && !next()) return false;
+        if (num >= queue.size() && loopNotPossible()) return false;
 
-        for(int i = 1; num > i; i++) {
+        for (int i = 1; num > i; i++) {
             queue.poll();
         }
 
@@ -113,7 +126,7 @@ public class TrackHandler extends AudioEventAdapter {
         loopedQueue.clear();
         player.stopTrack();
         currentTrack = null;
-        if(player.isPaused()) player.setPaused(false);
+        if (player.isPaused()) player.setPaused(false);
 
     }
 
@@ -147,10 +160,11 @@ public class TrackHandler extends AudioEventAdapter {
     // returns false if no tracks to play and looping wasn't successful (e.g. due to looped not being true)
     public boolean next() {
 
-        if(queue.isEmpty() && loopNotPossible()) return false;
+        if (queue.isEmpty() && loopNotPossible()) return false;
 
-        if(looped.getKey() && !looped.getValue() || !looped.getKey() || currentTrack == null) currentTrack = queue.poll();
-        if(currentTrack == null) return false;
+        if (looped.getKey() && !looped.getValue() || !looped.getKey() || currentTrack == null)
+            currentTrack = queue.poll();
+        if (currentTrack == null) return false;
         player.playTrack(currentTrack.makeClone());
         DiscordBot.jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.playing(currentTrack.getInfo().title));
         updateInfoCard();
@@ -160,7 +174,7 @@ public class TrackHandler extends AudioEventAdapter {
 
     // Returns false, if successfully looped
     private boolean loopNotPossible() {
-        if(looped.getKey() && (looped.getValue() || !loopedQueue.isEmpty())) {
+        if (looped.getKey() && (looped.getValue() || !loopedQueue.isEmpty())) {
             queue = new LinkedBlockingQueue<>(loopedQueue);
             return false;
         }
@@ -170,8 +184,8 @@ public class TrackHandler extends AudioEventAdapter {
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 
-        if(endReason.mayStartNext) {
-            if(!next()) {
+        if (endReason.mayStartNext) {
+            if (!next()) {
                 Card.destroy();
                 DiscordBot.jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.listening("/help"));
             }
@@ -185,14 +199,14 @@ public class TrackHandler extends AudioEventAdapter {
     @Override
     public void onPlayerPause(AudioPlayer player) {
         Card.setPaused(true);
-        if(pauseService != null && !pauseService.isShutdown()) pauseService.shutdownNow();
+        if (pauseService != null && !pauseService.isShutdown()) pauseService.shutdownNow();
     }
 
     @Override
     public void onPlayerResume(AudioPlayer player) {
         Card.setPaused(false);
         updateInfoCard();
-        if(pauseService != null && !pauseService.isShutdown()) pauseService.shutdownNow();
+        if (pauseService != null && !pauseService.isShutdown()) pauseService.shutdownNow();
     }
 
     private void updateInfoCard() {
