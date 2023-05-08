@@ -6,7 +6,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,19 +31,6 @@ public class TrackHandler extends AudioEventAdapter {
         this.loopedQueue = new LinkedBlockingQueue<>();
 
     }
-
-
-//    //TODO queue
-//    public void queue(AudioTrack track){
-//        if(!this.player.startTrack(track, true)){
-//            this.queue.offer(track);
-//        }
-//    }
-//
-//
-//
-//
-//
 
     public boolean queue(TextChannel infoCardChannel, AudioTrack track) {
 

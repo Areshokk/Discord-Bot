@@ -21,21 +21,21 @@ import static areshok.Secret.botToken;
 
 public class DiscordBot {
 
-        public static GatewayIntent[] INTENTS = {   GatewayIntent.DIRECT_MESSAGES,
-            GatewayIntent.GUILD_MEMBERS,
-            GatewayIntent.GUILD_MEMBERS,
-            GatewayIntent.GUILD_BANS,
-            GatewayIntent.GUILD_WEBHOOKS,
-            GatewayIntent.GUILD_INVITES,
-            GatewayIntent.GUILD_VOICE_STATES,
-            GatewayIntent.GUILD_PRESENCES,
-            GatewayIntent.GUILD_MESSAGES,
-            GatewayIntent.GUILD_MESSAGE_REACTIONS,
-            GatewayIntent.GUILD_MESSAGE_TYPING,
-            GatewayIntent.DIRECT_MESSAGES,
-            GatewayIntent.MESSAGE_CONTENT,
-            GatewayIntent.DIRECT_MESSAGE_REACTIONS,
-            GatewayIntent.DIRECT_MESSAGE_TYPING};
+//        public static GatewayIntent[] INTENTS = {   GatewayIntent.DIRECT_MESSAGES,
+//            GatewayIntent.GUILD_MEMBERS,
+//            GatewayIntent.GUILD_MEMBERS,
+//            GatewayIntent.GUILD_BANS,
+//            GatewayIntent.GUILD_WEBHOOKS,
+//            GatewayIntent.GUILD_INVITES,
+//            GatewayIntent.GUILD_VOICE_STATES,
+//            GatewayIntent.GUILD_PRESENCES,
+//            GatewayIntent.GUILD_MESSAGES,
+//            GatewayIntent.GUILD_MESSAGE_REACTIONS,
+//            GatewayIntent.GUILD_MESSAGE_TYPING,
+//            GatewayIntent.DIRECT_MESSAGES,
+//            GatewayIntent.MESSAGE_CONTENT,
+//            GatewayIntent.DIRECT_MESSAGE_REACTIONS,
+//            GatewayIntent.DIRECT_MESSAGE_TYPING};
 
     public static JDA jda;
 
@@ -48,13 +48,13 @@ public class DiscordBot {
     private DiscordBot() throws LoginException, InterruptedException {
 
         //Scanner token = new Scanner(System.in);
-        String token = "MTAwNjY4NTg0MTczMDU4ODc3Ng.Gy1Fra.rvDENrFxKDnHqj1mYXkJa6jArxxmWVdDKjmWkM";
+        String token = "MTAwNjY4NTg0MTczMDU4ODc3Ng.GKli2T.2Boc6b1CeiJyvkZjU6OUUQHPGNaJFlIk1fMT5A";
 
-        jda = JDABuilder.createDefault(token, Arrays.asList(INTENTS))
+        jda = JDABuilder.createDefault(token)
                 .enableCache(CacheFlag.VOICE_STATE)
                 .setActivity(Activity.listening("/help"))
                 .addEventListeners(new Listener())
-                .addEventListeners(new Hello())
+                //.addEventListeners(new Hello())
                 .build().awaitReady();
 
 

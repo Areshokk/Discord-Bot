@@ -3,7 +3,7 @@ package areshok;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.emoji.EmojiRemovedEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -42,9 +42,12 @@ public class Hello extends ListenerAdapter {
                             System.out.println("Created role \n " + guild.getRoles() );
 
                         });
-
-
+                }
+            if (messageSent.equals("ролі")) {
+                Guild guild = event.getGuild();
+                System.out.println(guild.getRoles());
             }
+
             if (messageSent.equals("гном дай роль")) {
                 Guild guild = event.getGuild();
                 Role role = guild.getRoleById(1075504192703189002L);

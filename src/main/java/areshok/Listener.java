@@ -12,8 +12,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+//import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+//import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -26,10 +29,12 @@ import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Modal;
+//import net.dv8tion.jda.api.interactions.components.Modal;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import org.jetbrains.annotations.NotNull;
@@ -110,7 +115,7 @@ public class Listener extends ListenerAdapter {
                                 .addField("/bass [Відсоток]", "Підсилює бас", false)
                                 .addField("/help", "Показує цей список", false)
                                 .setDescription("Якщо вас щось не влаштовує або у вас є пропозиції щодо покращення, будь ласка, зв'яжіться зі мною за адресою " + var).build())
-                        .addActionRows(ActionRow.of(Button.success("support", "Допомога"))).setEphemeral(true).queue();
+                        .addActionRow((ItemComponent) ActionRow.of(Button.success("support", "Допомога"))).setEphemeral(true).queue();
             }
             case "play" -> {
                 if(args.containsKey("title")) play(ev, g, m, args.get("title"));
@@ -548,123 +553,5 @@ public class Listener extends ListenerAdapter {
 
         PlayerManager.getINSTANCE().load((TextChannel) ev.getMessageChannel(), ev, arg);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    //TODO chchnuk
-//    @Override
-//    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
-//        System.out.println("Чел під ніком `" + event.getMember().getEffectiveName() + "` придєнався до голосового каналу: " + event.getChannelJoined().getName());
-//
-//        if (event.getMember().getId().equals("1038143630235406398")) {
-//            final AudioManager audioManager = event.getGuild().getAudioManager();
-//            final VoiceChannel memberChannel = (VoiceChannel) event.getChannelJoined();
-//
-//            audioManager.openAudioConnection(memberChannel);
-//
-//
-//            String link = "https://www.youtube.com/watch?v=BGkr7xTyJlg";
-//
-//            if(!isURL(link)){
-//                link = String.join(" ", "ytsearch:", link);
-//            }
-//
-//            loadAndPlay(Objects.requireNonNull(event.getGuild().getTextChannelById(946149189165912065L)), link);
-//        }
-//
-//    }
-//
-//    private final Map<Long, MusicManager> musicManagers;
-//    private final AudioPlayerManager audioPlayerManager;
-//
-//    public Listener(){
-//        this.musicManagers = new HashMap<>();
-//        this.audioPlayerManager = new DefaultAudioPlayerManager();
-//
-//        AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
-//        AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
-//    }
-//
-//    public MusicManager getMusicManager(Guild guild){
-//        return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
-//            final MusicManager guildMusicManager = new MusicManager(this.audioPlayerManager);
-//            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
-//            return guildMusicManager;
-//        });
-//    }
-//
-//    public void loadAndPlay(TextChannel textChannel, String trackUrl){
-//        final MusicManager musicManager = this.getMusicManager(textChannel.getGuild());
-//
-//        this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
-//            @Override
-//            public void trackLoaded(AudioTrack audioTrack) {
-//                musicManager.handler.queue(audioTrack);
-//
-//                textChannel.sendMessage("Чайник **`")
-//                        .append(audioTrack.getInfo().title)
-//                        .append("`** by **`")
-//                        .append(audioTrack.getInfo().author)
-//                        .append("`**")
-//                        .queue();
-//            }
-//
-//            @Override
-//            public void playlistLoaded(AudioPlaylist audioPlaylist) {
-//                final List<AudioTrack> tracks = audioPlaylist.getTracks();
-//                if(!tracks.isEmpty()){
-//                    musicManager.handler.queue(tracks.get(0));
-//                    textChannel.sendMessage("Чайник **`")
-//                            .append(tracks.get(0).getInfo().title)
-//                            .append("`** by **`")
-//                            .append(tracks.get(0).getInfo().author)
-//                            .append("`**")
-//                            .queue();
-//                }
-//            }
-//
-//            @Override
-//            public void noMatches() {
-//
-//            }
-//
-//            @Override
-//            public void loadFailed(FriendlyException e) {
-//
-//            }
-//        });
-//    }
-//
-//    private static boolean isURL(String link) {
-//
-//        try {
-//            new URI(link);
-//            return true;
-//        } catch(URISyntaxException ex) {
-//            return false;
-//        }
-//    }
-
-
-
-
 
 }
