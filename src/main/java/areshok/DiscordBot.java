@@ -48,7 +48,7 @@ public class DiscordBot {
     private DiscordBot() throws LoginException, InterruptedException {
 
         //Scanner token = new Scanner(System.in);
-        String token = "MTAwNjY4NTg0MTczMDU4ODc3Ng.GKli2T.2Boc6b1CeiJyvkZjU6OUUQHPGNaJFlIk1fMT5A";
+        String token = "TOKEN";
 
         jda = JDABuilder.createDefault(token)
                 .enableCache(CacheFlag.VOICE_STATE)
